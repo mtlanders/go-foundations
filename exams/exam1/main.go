@@ -1,4 +1,4 @@
-// Exercise 5 (comprehensive):
+// Exercise 5 (comprehensive): Covers sections/days 1-3
 // The Rectangle sweep covering area method, scale method with pointer receiver, variadic function
 // returning a sub-slice of the last 3 rectangles, and demonstration in main.
 
