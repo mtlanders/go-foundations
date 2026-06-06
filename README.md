@@ -7,12 +7,13 @@ I am a C++ developer of nearly 10 years with experience in aerospace, simulation
 This repo represents my professional expansion from exclusively metal and OS to include the enterprise backend pipeline
 
 ## What This Covers
-This covers the day-to-day progression of my escalating Go fluency for application in backend and infrastructure systems
+This covers the progression of my escalating Go fluency for application in backend and infrastructure systems
 
-## Progress by Day
+## Modules
 1. Go toolchain, variables, primitive types, constants, conditionals, loops
 2. Functions, structs, methods, errors
 3. Pointers, slices
+4. Maps
 
 ## AI Considerations
 The use of AI in this project represents a calculated effort to facilitate rapid learning and maximize retention and deeper

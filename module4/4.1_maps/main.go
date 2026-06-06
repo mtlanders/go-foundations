@@ -1,4 +1,4 @@
-// Day 4 Exercise
+// Module 4 Exercise
 // Create a new directory 4_maps in your dev environment.
 
 // Scenario
