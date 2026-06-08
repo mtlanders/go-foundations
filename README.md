@@ -15,7 +15,15 @@ This covers the progression of my escalating Go fluency for application in backe
 3. Pointers, slices
 4. Maps
 
+## Exams
+These exam exercises cover capstone/comprehensive overviews of essential Go topics and act as tests for
+larger sets of core functionality
+
+## Drills
+These are specific, targeted exercises with the goal of strengthening identified weak points
+in my Go knowledge
+
 ## AI Considerations
 The use of AI in this project represents a calculated effort to facilitate rapid learning and maximize retention and deeper
 comprehension. Careful and specific guardrails were placed in the model instructions to ensure responses were nothing more than
-explanations of the core language and that every line of code in this repo is my own.
+explanations of the core language and that every line of code in this repo is my own
