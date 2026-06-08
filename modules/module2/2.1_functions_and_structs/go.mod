@@ -1,3 +1,3 @@
-module quiz2
+module quiz2.1
 
 go 1.26.4
