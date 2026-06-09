@@ -10,6 +10,8 @@ This repo represents my professional expansion from exclusively metal and OS to 
 This covers the progression of my escalating Go fluency for application in backend and infrastructure systems
 
 ## Modules
+These are general lessons intended to cover core Go language topics
+
 1. Go toolchain, variables, primitive types, constants, conditionals, loops
 2. Functions, structs, methods, errors
 3. Pointers, slices
