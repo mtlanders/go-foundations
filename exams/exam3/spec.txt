@@ -1,0 +1,142 @@
+/*
+=============================================================
+CAPSTONE EXERCISE — Go Days 1–6
+=============================================================
+
+COVERS: variables, constants, types, conditionals, loops,
+        structs, methods, pointer receivers, value receivers,
+        functions, variadic functions, pointers, slices,
+        3-index slicing, maps, comma-ok, error handling,
+        interfaces, implicit satisfaction, empty interface,
+        type assertions, type switches
+
+=============================================================
+SCENARIO
+=============================================================
+You are building a simple event ticketing system. The system
+supports multiple venue types — arenas and theaters — each
+with different seating capacities and pricing rules. Events
+are tracked in a registry, each event is associated with a
+venue, and attendees can be registered to events.
+
+=============================================================
+REQUIREMENTS
+=============================================================
+
+--- Interfaces ---
+
+1. Declare a Venue interface at package scope with the
+   following methods:
+     Name() string
+     Capacity() int
+     TicketPrice(section string) (float64, error)
+
+2. Implement two concrete types that satisfy Venue:
+
+   Arena
+     - Fields: name (string), capacity (int)
+     - TicketPrice returns:
+         "floor"  → 150.00
+         "upper"  → 75.00
+         any other section → error
+
+   Theater
+     - Fields: name (string), capacity (int)
+     - TicketPrice returns:
+         "orchestra" → 200.00
+         "balcony"   → 90.00
+         any other section → error
+
+   Both types must satisfy Venue implicitly.
+   Use value receivers on Name and Capacity.
+   Use pointer receivers on TicketPrice.
+
+3. Write a function PrintVenueInfo(v Venue) that prints the
+   venue name, capacity, and ticket prices for all valid
+   sections of that venue. Use a type switch inside the
+   function to determine which sections to iterate.
+
+--- Structs and maps ---
+
+4. Define an Event struct with the following fields:
+     - Title     (string)
+     - VenueName (string)
+     - Attendees ([]string)
+
+5. Define a Registry as map[string]*Event where the key is
+   an event ID (string).
+
+6. Write a function RegisterEvent that takes a Registry, a
+   string ID, and a *Event. If the ID already exists, return
+   an error. Otherwise insert it.
+
+7. Write a function AddAttendee that takes a Registry, a
+   string event ID, and a string attendee name. Append the
+   attendee name as a value (not a pointer) to the event's
+   Attendees slice. Return an error if the event ID does not
+   exist.
+
+--- Slices ---
+
+8. Write a method MiddleAttendees on *Event that returns a
+   sub-slice of Attendees using 3-index slicing, excluding
+   the first and last attendee. Return an error if Attendees
+   has fewer than 3 elements. Set max equal to high.
+
+--- Variadic ---
+
+9. Write a variadic function SummarizeEvents that takes a
+   Registry and a variadic list of event IDs. For each ID
+   that exists in the registry, print the event title, venue
+   name, attendee count, and middle attendees (if available).
+   Silently skip IDs that do not exist. Return an error if
+   no IDs are passed.
+
+--- Empty interface and type assertion ---
+
+10. Write a function Describe(v any) string that returns a
+    string description using a type switch over the following
+    cases:
+      string  → "text: <value>"
+      int     → "number: <value>"
+      bool    → "flag: <value>"
+      Venue   → "venue: <Name()>"
+      default → "unknown"
+
+--- Main ---
+
+11. In main:
+    - Create at least one Arena and one Theater and call
+      PrintVenueInfo on each
+    - Populate a Registry with at least 3 events, each
+      referencing a venue by name
+    - Register enough attendees per event to exercise
+      MiddleAttendees on at least one event
+    - Call SummarizeEvents with a mix of valid and invalid
+      event IDs
+    - Call Describe with at least one value of each handled
+      type, including a Venue
+    - Declare at least one typed constant used in the program
+    - Print all results
+
+=============================================================
+ACCEPTANCE CRITERIA
+=============================================================
+- Venue is declared as an interface type at package scope
+- Arena and Theater satisfy Venue implicitly — no explicit
+  declaration
+- Type switch used in PrintVenueInfo to determine sections
+- TicketPrice uses pointer receivers on both concrete types
+- Name and Capacity use value receivers on both concrete types
+- Registry is not passed as a pointer (it is already a
+  reference type)
+- comma-ok used for all map key existence checks
+- Guard checks precede slice operations in MiddleAttendees
+- 3-index slicing used correctly; max == high
+- All errors are handled — none discarded with _
+- Error strings are lowercase with no trailing punctuation
+- At least one typed constant is declared and used
+- Describe uses a type switch, not chained type assertions
+- Positional struct literals are not used
+=============================================================
+*/
