@@ -1,0 +1,47 @@
+=============================================================
+SCENARIO
+
+A small job runner processes named tasks sequentially. Each task
+is a function that can fail. The runner must wrap errors with
+context, support sentinel error detection, support typed error
+inspection, and recover from panics without crashing.
+
+=============================================================
+REQUIREMENTS
+
+1. Define a sentinel error: ErrTaskFailed.
+
+2. Define a custom error type TaskError with fields:
+   - TaskName string
+   - Cause    error
+
+   Implement the error interface and Unwrap() on TaskError.
+
+3. Write a function runTask(name string, fn func() error) error
+   that:
+   - Defers a recovery function that catches panics and returns
+     them as a wrapped TaskError (wrapping ErrTaskFailed).
+   - Calls fn().
+   - On failure, wraps the returned error in a TaskError and
+     returns it (wrapping ErrTaskFailed via fmt.Errorf + %w).
+
+4. In main(), run three tasks using runTask:
+   a. A task that succeeds.
+   b. A task that returns a plain error.
+   c. A task that panics.
+
+   For each failed task, use errors.Is to confirm ErrTaskFailed
+   is in the chain, and errors.As to extract and print the
+   TaskName from the TaskError.
+
+=============================================================
+ACCEPTANCE CRITERIA
+
+- ErrTaskFailed is a package-level sentinel.
+- TaskError implements error and Unwrap.
+- runTask uses defer/recover to handle panics.
+- Errors are wrapped with fmt.Errorf + %w, not errors.New.
+- errors.Is and errors.As are both used in main.
+- Error strings are lowercase with no trailing punctuation.
+- The program compiles and runs without crashing.
+=============================================================
