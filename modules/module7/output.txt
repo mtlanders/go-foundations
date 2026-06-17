@@ -1,0 +1,4 @@
+TotalLines: 15
+ErrorLines: 5
+WarnLines: 5
+LongestLine: the quick brown fox jumps over the lazy dog

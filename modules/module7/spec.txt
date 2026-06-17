@@ -1,0 +1,88 @@
+// =============================================================
+// SCENARIO
+// =============================================================
+// You're building a small log-ingestion tool. It reads a log file
+// line by line, tallies basic stats about what it finds, and writes
+// a summary report to a separate output file.
+//
+// =============================================================
+// REQUIREMENTS
+// =============================================================
+//
+// 1. Define a struct named LogStats with these fields:
+//      - TotalLines   int
+//      - ErrorLines   int   (lines containing the substring "ERROR")
+//      - WarnLines    int   (lines containing the substring "WARN")
+//      - LongestLine  string (the longest line encountered; on a tie,
+//                              keep the FIRST one seen)
+//
+// 2. Implement a method on *LogStats:
+//      func (s *LogStats) ProcessLine(line string)
+//    This updates the struct's fields based on a single line of input.
+//    Receiver must be a pointer (per your own spec) — justify in a
+//    comment above the method why a pointer receiver is correct here.
+//
+// 3. Implement a function:
+//      func ReadLog(path string) (*LogStats, error)
+//    This must:
+//      - Open the file at `path` using the os package
+//      - Use defer to ensure the file is closed
+//      - Read the file line by line (bufio.Scanner is appropriate)
+//      - Call ProcessLine for each line
+//      - If the file does not exist, return an error and check/handle
+//        that specific condition using errors.Is against the correct
+//        sentinel error (do not string-match)
+//      - Return a pointer to the populated LogStats and a nil error
+//        on success
+//
+// 4. Implement a function:
+//      func WriteReport(path string, stats *LogStats) error
+//    This must:
+//      - Take a pointer to LogStats (read-only use — do not mutate
+//        the struct in this function)
+//      - Format a short plain-text report including all four fields
+//      - Write it to `path` using the os package, creating the file
+//        if it doesn't exist and truncating it if it does
+//      - Use defer to ensure the file is closed
+//      - Return any error encountered (wrapped with context using
+//        fmt.Errorf and %w — do not discard the underlying error)
+//
+// 5. In main():
+//      - Call ReadLog on a path of your choice. You must create a
+//        sample input file for testing — it does not need to be
+//        committed alongside this file. The file should be plain
+//        text, one log entry per line, in the form:
+//            <anything> ERROR <anything>
+//            <anything> WARN <anything>
+//            <anything>
+//        i.e. a line is classified by checking whether it CONTAINS
+//        the substring "ERROR" or "WARN" anywhere — there is no
+//        fixed column format. Lines containing neither substring
+//        still count toward TotalLines and are still eligible to
+//        be the LongestLine. Use at least 5 lines, with at least
+//        one ERROR line, at least one WARN line, and a clear longest
+//        line, so all four LogStats fields are exercised by your
+//        test input.
+//      - Handle the error case explicitly: if the file is missing,
+//        print a clear message using the errors.Is check from
+//        requirement 3, not a generic error print
+//      - On success, call WriteReport to write the summary to a
+//        second path of your choice
+//      - Handle WriteReport's error explicitly
+//
+// =============================================================
+// ACCEPTANCE CRITERIA
+// =============================================================
+// - LogStats methods/receivers use pointer semantics throughout,
+//   with a one-line justification comment on ProcessLine
+// - File handles are always closed via defer, immediately after the
+//   error check following open/create
+// - os.ErrNotExist is detected via errors.Is, not string comparison
+//   or err == os.ErrNotExist
+// - Errors returned from WriteReport are wrapped with fmt.Errorf/%w,
+//   not re-created via errors.New(err.Error())
+// - No error is discarded with _ anywhere in the file
+// - Error strings (if you construct any with errors.New or fmt.Errorf)
+//   are lowercase with no trailing punctuation
+// - LongestLine ties are broken in favor of the first line seen
+//   (i.e. strictly-greater-than comparison, not >=)

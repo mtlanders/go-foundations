@@ -1,0 +1,15 @@
+ERROR
+WARN
+ERROR
+ERROR WARN
+the quick brown fox jumps over the lazy dog
+WARN
+WANR
+ERORR
+this is a test line for longest line
+WARN ERROR
+/ 
+hello ERROR world
+
+lorem ipsum WARN
+This line has fourty-four characters in it.
