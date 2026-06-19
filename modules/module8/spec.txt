@@ -1,0 +1,41 @@
+/*
+=============================================================
+REQUIREMENTS
+=============================================================
+1. Write a function:
+
+       func makeHighWatcher(high int) func(int) bool
+
+   Returns a closure that takes a new int and returns true if
+   it strictly exceeds the watcher's current high, updating
+   the high if so. False otherwise, no update.
+
+2. In main, demonstrate and verify the following:
+
+   a. Two watchers created from separate makeHighWatcher calls
+      with the same starting high do NOT share state — calling
+      one does not affect the other.
+
+   b. A single watcher called multiple times correctly tracks
+      its own high across calls.
+
+   c. Create a slice of 3 watcher functions using a loop under
+      Go 1.21 semantics (set go.mod to go 1.21). The loop
+      variable itself must be captured by each closure — not
+      just used to call makeHighWatcher. This means the closure
+      must reference the loop variable directly as part of its
+      logic. Demonstrate that all 3 watchers are independent
+      despite this, and justify in comments exactly what you
+      did to prevent the pre-1.22 shared-variable bug and what
+      would have broken without it.
+
+=============================================================
+ACCEPTANCE CRITERIA
+=============================================================
+- No shared state between independently created watchers.
+- High updates correctly on true, does not update on false.
+- Loop variable is directly captured by each closure — not
+  just used as an argument to makeHighWatcher and discarded.
+- Loop-created watchers are independent under 1.21 semantics.
+- Every closure-relevant decision justified in comments.
+*/
