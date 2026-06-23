@@ -1,0 +1,24 @@
+=============================================================
+SCENARIO: Shape Inventory
+=============================================================
+You're tracking a mixed inventory of shapes for a simple
+reporting tool.
+
+REQUIREMENTS:
+1. Define an interface `Shape` with one method: `Area() float64`
+2. Define two struct types: `Circle` (radius float64) and
+   `Rectangle` (width, height float64)
+3. Implement `Area()` for both — decide and justify whether the
+   receiver should be a pointer or a value receiver
+4. Write a function `TotalArea(shapes []Shape) float64` that
+   sums the area of all shapes in the slice
+5. In main, build a slice of `Shape` containing at least one
+   Circle and one Rectangle, then print the total area
+
+ACCEPTANCE CRITERIA:
+- Both structs satisfy the Shape interface without explicit
+  declaration of intent (retroactive compliance)
+- TotalArea must work on the interface type, not concrete types
+- No error handling required — focus is purely interface
+  mechanics and method sets
+=============================================================

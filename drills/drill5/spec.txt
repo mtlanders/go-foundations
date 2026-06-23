@@ -1,0 +1,52 @@
+=============================================================
+SCENARIO: Account Ledger
+=============================================================
+A small ledger processes a stream of mixed account entries.
+Some entries can be settled (mutate their own state); the
+processor must inspect each entry's concrete behavior at
+runtime and report accordingly.
+
+REQUIREMENTS:
+
+1. Define an interface `Entry` with one method:
+       Describe() string
+
+2. Define a second interface `Settler` with one method:
+       Settle()        // mutates the receiver
+
+3. Define a composed interface `SettleableEntry` that embeds
+   BOTH Entry and Settler. Do not re-list their methods —
+   embed them.
+
+4. Define two concrete types:
+   - `Invoice` { Amount float64; Paid bool }
+   - `Note`    { Text string }
+
+5. Implement methods such that:
+   - `Invoice` satisfies BOTH Entry and Settler. Its Settle()
+     must set Paid = true. The Settle() receiver MUST be a
+     pointer receiver. Describe()'s receiver is your choice —
+     justify it.
+   - `Note` satisfies ONLY Entry (it cannot be settled).
+
+6. (OBE)
+   Write `Process(entries []Entry)` that, for each entry:
+   - prints the result of Describe()
+   - uses a TYPE SWITCH or TYPE ASSERTION to determine whether
+     the entry is also a Settler; if so, call Settle() and
+     print confirmation; if not, print that it is read-only.
+
+7. In main, build a []Entry containing a mix of Invoices and
+   Notes and run Process on it.
+
+ACCEPTANCE CRITERIA:
+- The slice in main is of type []Entry. Before you populate
+  it, decide what you must store for an Invoice so that its
+  Settler behavior is reachable at runtime — value or pointer?
+  State your reasoning. This is the crux of the drill.
+- After Process runs, a settled Invoice's Paid field must
+  actually be true in the underlying data. Be prepared to
+  prove it (see below).
+- Settle() MUST use a pointer receiver as specified in Req 5.
+- No error handling. Stdlib limited to fmt.
+=============================================================
