@@ -1,0 +1,31 @@
+=============================================================
+SCENARIO: Config Loader
+=============================================================
+You're writing a small config-loading routine that can fail in
+several distinct ways, and callers need to be able to tell which
+failure occurred without string-matching error messages.
+
+REQUIREMENTS:
+1. Define two sentinel errors using errors.New:
+   - ErrConfigNotFound
+   - ErrConfigInvalid
+2. Write a function `readRaw(path string) (string, error)` that:
+   - returns ErrConfigNotFound (wrapped, not bare) if path == ""
+   - otherwise returns a hardcoded raw string (simulate file content)
+     and a nil error
+3. Write a function `parseConfig(raw string) (int, error)` that:
+   - treats raw as a string representation of an integer timeout value
+   - if raw is empty, returns ErrConfigInvalid wrapped with fmt.Errorf
+     and %w, including the offending raw value in the message
+   - otherwise parses it (you may simulate parsing rather than using
+     strconv) and returns the int and nil
+4. Write a function `LoadTimeout(path string) (int, error)` that:
+   - calls readRaw, then parseConfig, propagating wrapped errors up
+     without flattening them (the original sentinel must still be
+     detectable by the caller after passing through LoadTimeout)
+5. In main, call LoadTimeout three times: once with a valid path,
+   once with an empty path, once with a path that yields empty raw
+   content — and for each failing case, use errors.Is to identify
+   which sentinel occurred and print a distinct message per sentinel
+6. All error strings must be lowercase with no trailing punctuation
+=============================================================
