@@ -1,0 +1,30 @@
+=============================================================
+SCENARIO: Plugin Pipeline
+=============================================================
+You're building a small processing pipeline that runs a series
+of named "stages" over a batch of integer records, where each
+stage can be a different concrete implementation.
+
+REQUIREMENTS:
+1. Define an interface `Stage` with method `Run(data []int) []int`
+2. Define a composed interface `NamedStage` that embeds `Stage`
+   and adds `Name() string`
+3. Implement at least three concrete types satisfying `NamedStage`:
+   - one that doubles every value
+   - one that removes negative values
+   - one that keeps only values above a threshold set at construction
+4. Write a function `RunPipeline(stages []NamedStage, data []int) []int`
+   that runs each stage in order, feeding each stage's output into
+   the next, and returns the final slice
+5. Implement at least one stage via a struct holding a closure
+   (a function field set at construction) rather than fixed logic,
+   demonstrating behavior parameterized at creation time
+6. In `main`, build a slice of `NamedStage`, run the pipeline once,
+   and print the name of each stage alongside the slice state after
+   it runs
+7. State up front, before submitting, your choice of pointer vs. value
+   receiver for each concrete type and your reasoning
+8. Somewhere in the code, take a `Stage`-typed value (not a `NamedStage`)
+   and use a type assertion or type switch to determine whether it
+   also implements `NamedStage`, branching on the result
+=============================================================

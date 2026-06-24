@@ -1,0 +1,36 @@
+=============================================================
+SCENARIO: Typed-Nil and the Empty Interface
+=============================================================
+Two small independent tasks covering the interface corners the
+last drill didn't reach.
+
+PART A — comma-ok over the empty interface
+
+1. Define Classify(v any) string.
+2. Using the comma-ok assertion form (val, ok := v.(T)) — NOT a
+   type switch — detect whether v holds an int or a string and
+   return a description incorporating the value. For any other
+   concrete type, return "unknown".
+
+PART B — the typed-nil trap
+
+3. Define interface Validator { Valid() bool }.
+4. Define struct Config (one field, your choice). Implement
+   Valid() on *Config — pointer receiver, specified.
+5. Define GetValidator(present bool) Validator:
+   - present == true  -> return a real *Config
+   - present == false -> return a nil *Config, routed OUT
+     THROUGH the Validator return type (not a literal nil
+     interface)
+6. In main, call GetValidator(false), store it in a Validator
+   variable, and determine whether that variable == nil.
+
+ACCEPTANCE CRITERIA:
+- Part A: two-result comma-ok form only. No type switch.
+- Part B: GetValidator returns the interface type Validator;
+  the false path routes a nil *Config through it, not a bare
+  nil interface.
+- The == nil check is the crux. State in dev notes what you
+  EXPECT it to print, and why, BEFORE running it.
+- Stdlib limited to fmt throughout.
+=============================================================
