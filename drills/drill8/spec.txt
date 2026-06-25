@@ -1,0 +1,26 @@
+=============================================================
+SCENARIO: Rate Limiter Tokens
+=============================================================
+You're building token-bucket style limiters where each limiter is
+a closure tracking its own remaining call count.
+
+REQUIREMENTS:
+1. Write `makeLimiter(max int) func() bool` — each call to the
+   returned function decrements an internal counter and returns
+   true if a token was available (counter was > 0 before this
+   call), false otherwise. Counter never goes below 0.
+2. Create two independently-constructed limiters, `lim1 := makeLimiter(3)`
+   and `lim2 := makeLimiter(5)`.
+3. Prove independence between lim1 and lim2 using a sequence of
+   calls and values that would DIFFER between "independent" and
+   "lim1 and lim2 secretly share one counter" hypotheses — a
+   single call is not sufficient; the discriminating call must
+   only make sense under one hypothesis. State your prediction
+   for each call BEFORE running, with reasoning.
+4. Separately, prove a single limiter correctly exhausts: call
+   one limiter exactly `max` times (expect true each time) then
+   one more time (expect false), with comments stating the
+   expectation before the result.
+5. Print labels must correctly identify which limiter's result is
+   being shown — no copy-paste reuse of a stale label.
+=============================================================
