@@ -1,0 +1,33 @@
+/*
+SPEC: Fixed-Count Job Dispatch
+
+Build a program that sends a fixed, known number of jobs to a single worker
+and collects results, using both channel types.
+
+Requirements:
+1. Create an unbuffered channel `jobs chan int` and a buffered channel
+   `results chan int` with capacity 3.
+2. Launch exactly 1 worker goroutine. The worker loops exactly 5 times:
+   each iteration, it receives one int from `jobs`, then sends
+   (value * 2) on `results`.
+3. In main, send the ints 1 through 5 on `jobs`, one at a time (no loop
+   required, but allowed).
+4. Main then receives exactly 5 values from `results` and prints each.
+5. Do not use time.Sleep anywhere as a synchronization mechanism.
+6. Do not close any channel — since the job count is fixed and known by
+   both sides, no closing or signaling mechanism is needed for this
+   exercise.
+
+Acceptance criteria (happy path):
+- All 5 results are received and printed, each correctly double its
+  corresponding job value.
+- Program terminates cleanly with no deadlock.
+
+Deliberate-failure criteria (must include in your test file):
+- Run the program in a loop (minimum 10 iterations) to confirm no
+  nondeterministic hang, given that a single run can pass by scheduling
+  luck even if ordering assumptions are wrong.
+- State in a comment: if `results` were unbuffered instead of buffered
+  capacity 3, would this program still function correctly? Why or why not,
+  given the send/receive order in main and the worker.
+*/

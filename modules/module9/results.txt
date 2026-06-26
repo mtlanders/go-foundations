@@ -1,0 +1,139 @@
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> .\mod9.exe
+Interation 0 received '2' from results
+Interation 1 received '4' from results
+Interation 2 received '6' from results
+Interation 3 received '8' from results
+Interation 4 received '10' from results
+PS C:\Users\mtl20\dev\go-foundations\modules\module9> 
