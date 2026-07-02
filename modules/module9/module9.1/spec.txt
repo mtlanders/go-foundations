@@ -1,0 +1,39 @@
+=============================================================
+EXERCISE: Filter Pipeline
+
+SCENARIO:
+  Build a two-stage concurrent pipeline. A producer goroutine
+  generates integers and a worker goroutine filters them.
+  Both stages support cancellation via a shared done channel.
+
+REQUIREMENTS:
+  1. Write a function with signature:
+       func produce(out chan<- int, done <-chan struct{})
+     Send integers 1–20 on out using a for/select loop that
+     selects between sending on out and receiving from done.
+     Close out when all values are sent or when cancelled.
+
+  2. Write a function with signature:
+       func work(in <-chan int, out chan<- int, done <-chan struct{})
+     Receive integers from in using a for/select loop that
+     selects between receiving from in and receiving from done.
+     For each value received, if it is even, send it on out.
+     Close out when in is closed or when cancelled.
+     Do not close out under any other circumstance.
+
+  3. In main:
+     a. Create a jobs channel (unbuffered, type chan int) and a
+        results channel (buffered, capacity 10, type chan int).
+     b. Create a done channel of type chan struct{}.
+     c. Spawn produce and work as goroutines, passing the
+        appropriate directional handles.
+     d. Range over results, printing each received value.
+     e. Close done after the range completes.
+
+  4. Every function parameter that receives a channel must use
+     the most restrictive directional type sufficient for its
+     use — no bidirectional channel where a directional type applies.
+
+  5. Only the goroutine responsible for sending on a channel
+     may close it.
+=============================================================
