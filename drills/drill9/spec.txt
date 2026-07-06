@@ -1,0 +1,41 @@
+=============================================================
+EXERCISE: Timeout Pipeline
+
+SCENARIO:
+  Build a pipeline that generates strings and filters them
+  by length. Both stages must support cancellation via a
+  shared done channel.
+
+REQUIREMENTS:
+  1. Write a function with signature:
+       func generate(out chan<- string, done <-chan struct{})
+     Send the following strings on out in order: "go", "rust",
+     "c", "typescript", "python", "java", "c++". Use a for/select
+     loop that selects between sending on out and receiving
+     from done. Close out when all strings are sent or when
+     cancelled.
+
+  2. Write a function with signature:
+       func filter(in <-chan string, out chan<- string, done <-chan struct{})
+     Receive strings from in using a for/select loop that
+     selects between receiving from in and receiving from done.
+     For each string received, if its length is greater than 3,
+     send it on out. Close out when in is closed or when
+     cancelled. Do not close out under any other circumstance.
+
+  3. In main:
+     a. Create a words channel (unbuffered, type chan string) and
+        a results channel (buffered, capacity 7, type chan string).
+     b. Create a done channel of type chan struct{}.
+     c. Spawn generate and filter as goroutines, passing the
+        appropriate directional handles.
+     d. Range over results, printing each received value.
+     e. Close done after the range completes.
+
+  4. Every function parameter that receives a channel must use
+     the most restrictive directional type sufficient for its
+     use — no bidirectional channel where a directional type applies.
+
+  5. Only the goroutine responsible for sending on a channel
+     may close it.
+=============================================================

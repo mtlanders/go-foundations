@@ -1,0 +1,29 @@
+Exercise: Goroutine Leak — Detect and Fix
+
+1. Write leakyWorkers(n int, jobs <-chan int) <-chan int
+   - Starts n goroutines. Each one ranges over jobs, and for every
+     value received, sends (value * 2) on a single shared, unbuffered
+     results channel that the function returns to the caller.
+   - No cancellation mechanism. This version is intentionally leak-prone.
+
+2. In main, demonstrate the leak:
+   - Call leakyWorkers with n=3 and a jobs channel.
+   - Send fewer values into jobs than would let all 3 goroutines exit
+     naturally on their own (i.e. jobs is never closed).
+   - Read only some of the expected results from the returned channel,
+     then stop reading.
+   - Print runtime.NumGoroutine() once before starting the workers and
+     once after a short delay (time.Sleep) following the stop. The
+     printed counts must demonstrate goroutines remain above the
+     baseline count.
+
+3. Write safeWorkers(n int, jobs <-chan int, done <-chan struct{}) <-chan int
+   - Same worker behavior as leakyWorkers, but each worker's loop uses
+     select to also watch done, and returns immediately if done is
+     closed, regardless of pending jobs.
+
+4. In main, demonstrate the fix using the same scenario as requirement 2
+   (same n, same under-supply of jobs, same early stop reading results),
+   but close done immediately after stopping. Print runtime.NumGoroutine()
+   again after a short delay following the close, and the printed count
+   must return to (or within one of) the pre-worker baseline.
