@@ -20,6 +20,7 @@ These are general lessons intended to cover core Go language topics
 6. Errors, panics, recovery
 7. File I/O
 8. Closures
+9. Goroutines, channels, synchronization
 
 ## Exams
 These exam exercises cover capstone/comprehensive overviews of essential Go topics and act as tests for
