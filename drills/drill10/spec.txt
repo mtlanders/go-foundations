@@ -1,0 +1,43 @@
+Exercise: Concurrent Pipeline with Graceful Shutdown
+
+1. Write a function generator(n int) <-chan int that:
+   - Returns a receive-only channel.
+   - Starts exactly one goroutine that sends the integers 1 through n
+     (inclusive) on an UNBUFFERED channel, then closes that channel
+     once all n values have been sent.
+
+2. Write a function worker(jobs <-chan int, done <-chan struct{}) <-chan int
+   that:
+   - Returns a receive-only channel.
+   - Starts exactly one goroutine that loops using select, gated by
+     both jobs and done, per the leak-prevention pattern from section 6
+     (every blocking operation — the jobs receive, the result send —
+     must be its own select case, none may be a bare statement inside
+     a case body).
+   - For each value v received from jobs, sends (v * v) on a BUFFERED
+     channel (capacity 5) that this function returns to the caller.
+   - Exits cleanly (returns from the goroutine) if jobs is closed
+     OR if done is closed, whichever occurs first.
+
+3. In main:
+   - Create a done channel (chan struct{}).
+   - Call generator to produce jobs from 1 to 20.
+   - Start exactly 4 worker goroutines (via requirement 2's worker
+     function), all reading from the same jobs channel, each with
+     its own returned result channel.
+   - Print runtime.NumGoroutine() once before starting generator/workers.
+   - Read exactly 10 total results across however the 4 result channels
+     divide them (order and distribution across workers do not matter,
+     only that exactly 10 total values are read across all of them
+     combined) using select over the 4 result channels.
+   - After reading exactly 10 values, close done.
+   - Sleep briefly, then print runtime.NumGoroutine() again — this
+     count must return to at or within one of the pre-generator/worker
+     baseline, demonstrating no leaked goroutines remain.
+
+4. Constraints:
+   - Single file, single main — no build tags, no additional files.
+   - No sync package usage (WaitGroup/Mutex/RWMutex) — not yet covered.
+   - jobs and all worker result channels must use directional channel
+     types (<-chan / chan<-) at every function boundary where the
+     spec above implies a direction.
