@@ -1,0 +1,89 @@
+Capstone: Concurrent Job Processing System with Graceful Shutdown
+
+Context: A system that dispatches jobs to a pool of workers, collects
+results, tracks running statistics on completed work, and can be
+shut down cleanly at any point without leaking goroutines or losing
+already-in-flight work improperly.
+
+1. Define:
+
+     type Job struct {
+         ID    int
+         Value int
+     }
+
+     type Result struct {
+         JobID int
+         Output int  // Value squared
+     }
+
+   Define a WorkerStats struct (your own fields) that tracks, under
+   appropriate sync-package protection: total jobs completed, sum of
+   all Outputs, and the highest Output seen. Provide a thread-safe
+   method to record a completed Result and a thread-safe method to
+   read a snapshot of the current stats. Justify (comment) the lock
+   type chosen for each method.
+
+2. Write dispatcher(jobCount int, done <-chan struct{}) <-chan Job that:
+   - Returns a receive-only channel.
+   - Starts one goroutine that sends jobCount Jobs (IDs 1..jobCount,
+     Value = ID*2) on an UNBUFFERED channel, then closes it after the
+     last send.
+   - Every send is its own done-gated select case.
+
+3. Write worker(jobs <-chan Job, done <-chan struct{}, stats *WorkerStats) <-chan Result
+   that:
+   - Returns a receive-only channel.
+   - Starts one goroutine that ranges over jobs via a done-gated select
+     (both the jobs receive and the eventual result send must be their
+     own select cases, per section 6's pattern), computes Result{JobID:
+     job.ID, Output: job.Value * job.Value} for each job received,
+     calls stats.Record(result) BEFORE sending the result onward, then
+     sends the Result on a channel it returns (buffered, capacity 3).
+   - Exits cleanly when jobs closes or done closes, whichever first.
+
+4. Write fanIn(done <-chan struct{}, resultChans ...<-chan Result) <-chan Result
+   that:
+   - Starts one goroutine PER input channel forwarding onto one shared
+     output channel (unbuffered).
+   - Uses a sync.WaitGroup to track when all per-source goroutines have
+     finished.
+   - Closes the shared output channel ONLY after all per-source
+     goroutines have confirmed completion (via the WaitGroup), from a
+     separate goroutine that waits on the WaitGroup before closing —
+     this must not be done by any of the per-source goroutines
+     individually.
+
+5. In main:
+   - Create one done channel.
+   - Create a dispatcher for 30 jobs.
+   - Start exactly 4 workers, all reading from the dispatcher's job
+     channel, sharing one *WorkerStats instance.
+   - Fan the 4 workers' result channels into one output channel via
+     fanIn.
+   - Read results from fanIn's output channel using a normal range
+     (since fanIn now correctly closes its output, this is valid and
+     preferred over a manual select-based read loop here).
+   - After the range loop completes (meaning fanIn's output closed,
+     meaning every worker finished, meaning all 30 jobs were
+     processed), print the final stats snapshot: total completed
+     (must equal 30), sum of outputs, and max output.
+   - Print runtime.NumGoroutine() before dispatcher starts and again
+     after a brief sleep following the main range loop's completion —
+     must return to at or within one of baseline.
+   - done is available throughout for cancellation but this run is
+     not expected to need it, since the range loop naturally completes
+     once all real work is done — done exists for correctness under
+     the leak-prevention pattern, not because this specific run
+     triggers it.
+
+6. Constraints:
+   - Single file, single main.
+   - Correct directional channel types at every relevant function
+     boundary.
+   - No channel closed by more than one goroutine or while another
+     goroutine may still send on it.
+   - Every closed-channel receive (ok == false) must result in a clean
+     goroutine exit, no fallthrough, no spin.
+   - stats.Record must be called under proper lock; stats reads must
+     use RLock, not Lock.
