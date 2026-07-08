@@ -1,0 +1,53 @@
+Exercise: Multi-Stage Concurrent Pipeline (non-curriculum challenge)
+
+1. Write a function stage1(n int, done <-chan struct{}) <-chan int that:
+   - Returns a receive-only channel.
+   - Starts exactly one goroutine that sends integers 1 through n on
+     an UNBUFFERED channel, then closes that channel after the last
+     send completes.
+   - The send loop must be gated by done — if done closes before all
+     n values are sent, the goroutine exits without sending remaining
+     values (no bare/ungated send statements).
+
+2. Write a function stage2(in <-chan int, done <-chan struct{}) <-chan int
+   that:
+   - Returns a receive-only channel.
+   - Starts exactly 3 goroutines, all reading from the same in channel.
+   - Each, for every value v received, sends (v * v) on a single shared
+     BUFFERED channel (capacity 4) returned to the caller.
+   - Every blocking operation (receive from in, send to the shared
+     output channel) must be its own select case gated by done.
+   - Does NOT close the returned channel (multiple senders, no single
+     owner — closing responsibility is intentionally out of scope here).
+
+3. Write a function stage3(in <-chan int, done <-chan struct{}) <-chan string
+   that:
+   - Returns a receive-only channel.
+   - Starts exactly 2 goroutines, both reading from the same in channel.
+   - Each, for every value v received, sends fmt.Sprintf("result: %d", v)
+     on a single shared UNBUFFERED channel returned to the caller.
+   - Same gating requirement as stage 2 (every blocking op is its own
+     done-gated select case).
+
+4. In main:
+   - Create one done channel shared across all three stages.
+   - Chain the stages: stage1 -> stage2 -> stage3 (stage2's input is
+     stage1's output, stage3's input is stage2's output).
+   - Use n = 15 for stage1.
+   - Print runtime.NumGoroutine() once before starting stage1.
+   - Read exactly 8 total string results from stage3's output channel
+     (order doesn't matter, just the count).
+   - After reading exactly 8, close done.
+   - Sleep briefly, then print runtime.NumGoroutine() again — this
+     count must return to at or within one of the pre-stage1 baseline.
+
+5. Constraints:
+   - Single file, single main.
+   - No sync package usage (WaitGroup/Mutex/RWMutex).
+   - Every channel-typed function parameter and return type must use
+     the correct directional type (<-chan / chan<-).
+   - No unbuffered/buffered channel closed by more than one goroutine,
+     and no channel closed while another goroutine may still be sending
+     on it (i.e., only the single-producer channels — stage1's own
+     output — may be closed at all; stage2 and stage3's multi-producer
+     outputs are correctly never closed per requirements 2 and 3).

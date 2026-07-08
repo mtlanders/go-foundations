@@ -1,0 +1,63 @@
+Exercise: Fan-Out/Fan-In Aggregator with Conditional Source (non-curriculum challenge)
+
+1. Write a function source(id int, count int, done <-chan struct{}) <-chan int
+   that:
+   - Returns a receive-only channel.
+   - Starts exactly one goroutine that sends `count` values on an
+     UNBUFFERED channel: the values must be (id*100 + 1) through
+     (id*100 + count), in order.
+   - Closes the channel after the last send completes.
+   - Every send is its own done-gated select case (no bare sends).
+
+2. Write a function merge(done <-chan struct{}, sources ...<-chan int) <-chan int
+   that:
+   - Accepts a variadic number of receive-only input channels.
+   - Returns a single receive-only BUFFERED channel (capacity 10) that
+     is the fan-in of every input channel — starts one goroutine PER
+     input channel, each forwarding whatever it receives onto the
+     single shared output channel.
+   - Each per-source goroutine must exit cleanly once its OWN input
+     channel closes (checking the ok value correctly) OR if done closes
+     — whichever occurs first. A closed input channel is not an error
+     and must not cause a panic or a spin.
+   - Does not close the output channel (multiple producer goroutines,
+     no single owner).
+
+3. Write a function conditionalTap(active bool, in <-chan int, done <-chan struct{}) <-chan int
+   that:
+   - Returns a receive-only channel.
+   - If active is false, the returned channel must be a nil channel
+     (not merely empty — an actual nil chan int value).
+   - If active is true, starts one goroutine that forwards every value
+     from `in` onto a newly-created unbuffered channel it returns, and
+     that goroutine must exit cleanly when `in` closes OR done closes.
+   - This function exists to require you to reason about a nil channel
+     participating in a select elsewhere in the program (see requirement 4).
+
+4. In main:
+   - Create one done channel.
+   - Create 3 sources (source(1, 5, done), source(2, 5, done),
+     source(3, 5, done)) — 15 total values across all three.
+   - Fan them into one merge(done, ch1, ch2, ch3) output channel.
+   - Call conditionalTap(false, mergedChan, done) to obtain a nil
+     channel (per requirement 3's active=false branch) — call it tap.
+   - Read values using a select with TWO cases: one for the merged
+     channel, one for tap. Because tap is nil, its case must never
+     fire (a nil channel blocks forever on both send and receive) —
+     this must be demonstrated by the program still successfully
+     reading all 15 values from the merged channel despite tap's
+     case being present in every select iteration.
+   - Print runtime.NumGoroutine() once before starting any sources,
+     and once after all 15 values are read, done is closed, and a
+     brief sleep has elapsed — the second count must return to at or
+     within one of the first.
+
+5. Constraints:
+   - Single file, single main.
+   - No sync package usage.
+   - Correct directional channel types at every relevant boundary.
+   - No channel closed by more than one goroutine or while another
+     goroutine may still send on it.
+   - Every closed-channel receive (ok == false) must result in a clean
+     goroutine exit — no fallthrough, no spin, per the bug found in
+     the previous exercise.
