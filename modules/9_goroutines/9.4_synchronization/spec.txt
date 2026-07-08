@@ -1,0 +1,53 @@
+Exercise: Concurrent Stats Aggregator
+
+Context: N worker goroutines each process a fixed batch of integers and
+update shared state. The program must correctly aggregate results from
+all workers and print them only after every worker has finished.
+
+1. Define a shared struct:
+
+     type Stats struct {
+         mu    sync.RWMutex
+         total int
+         count int
+         max   int
+     }
+
+   Write a method (s *Stats) Record(v int) that safely updates total
+   (+= v), count (+= 1), and max (set to v if v > current max) under
+   appropriate locking. This method will be called concurrently by
+   multiple goroutines.
+
+2. Write a method (s *Stats) Snapshot() (total, count, max int) that
+   safely reads all three fields and returns them, usable concurrently
+   with Record calls from other goroutines. Snapshot must use RLock/
+   RUnlock (not Lock/Unlock) — justify in a comment why a reader lock
+   is correct here given Record's locking.
+
+3. Write a function runWorkers(n int, batchSize int, stats *Stats) that:
+   - Starts exactly n goroutines.
+   - Each goroutine generates batchSize ints deterministically from its
+     own worker index (e.g. worker i's values are some simple formula
+     involving i and a loop counter, such as i*1000 + j for j in 0..batchSize)
+     and calls stats.Record(v) for each one. No RNG or math/rand usage —
+     deterministic generation only.
+   - Uses a sync.WaitGroup to block until all n goroutines have
+     completed before runWorkers returns.
+
+4. In main:
+   - Create one Stats value (not a pointer at declaration — pass its
+     address into runWorkers).
+   - Call runWorkers(5, 100, &stats) — 5 workers, 100 ints each.
+   - After runWorkers returns, call Snapshot() and print total, count,
+     max.
+   - count in the final snapshot must equal exactly 500 (5 workers *
+     100 each) — this is your correctness check that no updates were
+     lost to a race and that WaitGroup correctly waited for all workers.
+
+5. Constraints:
+   - No channels anywhere in this exercise — sync package only.
+   - Stats's mutex must be sync.RWMutex, not a plain sync.Mutex, and its
+     use in Record vs. Snapshot must reflect the correct lock type for
+     each (write lock vs. read lock).
+   - Run with `go run -race` and confirm no race is reported; include
+     that confirmation (pass/fail) in your submission notes, not in code.
