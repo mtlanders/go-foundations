@@ -1,0 +1,7 @@
+Project: Concurrent URL Health Checker
+Given a list of URLs (hardcoded or read from a simple text file — your choice), check each one's HTTP status concurrently, with:
+
+A configurable worker pool size (not one goroutine per URL — a fixed pool of N workers pulling from a queue)
+A configurable timeout per request
+A live-updating summary as results come in (doesn't need to be fancy — printing "checked 12/50" as they complete is enough), or you can just print each result as it arrives
+A final summary: total checked, how many succeeded (2xx), how many failed (non-2xx or error/timeout), total elapsed time
