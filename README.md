@@ -30,6 +30,11 @@ larger sets of core functionality
 These are specific, targeted exercises with the goal of strengthening identified weak points
 in my Go knowledge
 
+# Projects
+These are independent projects used for demonstrating understanding and ability outside of formal
+Go language lessons. They are to solve real-world problems in escalating difficulty and demonstrate
+comprehension of the language and how all the lessons fit together.
+
 ## AI Considerations
 The use of AI in this project represents a calculated effort to facilitate rapid learning and maximize retention and deeper
 comprehension. Careful and specific guardrails were placed in the model instructions to ensure responses were nothing more than
